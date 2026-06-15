@@ -1,12 +1,15 @@
 import { ResultRepository } from './result.repository';
 import { AppError } from '../../utils/AppError';
-import { EventStatus } from '@prisma/client';
+import { EventStatus, Prisma } from '@prisma/client';
+import { CertificateService } from '../certificate/certificate.service';
 
 export class ResultService {
   private repository: ResultRepository;
+  private certificateService: CertificateService;
 
   constructor() {
     this.repository = new ResultRepository();
+    this.certificateService = new CertificateService();
   }
 
   async assignResult(data: any) {
@@ -35,11 +38,18 @@ export class ResultService {
       throw new AppError('Result already exists for this student in this event', 409);
     }
 
-    return this.repository.create({
+    const result = await this.repository.create({
       studentId,
       eventId,
       position,
     });
+
+    // Auto-generate certificate in the background
+    this.certificateService.generateCertificate(result.id).catch(err => {
+      console.error(`Failed to auto-generate certificate for result ${result.id}:`, err);
+    });
+
+    return result;
   }
 
   async getEventResults(eventId: string, query: any) {
