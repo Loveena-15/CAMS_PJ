@@ -1,16 +1,16 @@
-import { Outlet, Link, useNavigate, useLocation } from 'react-router-dom';
+import { Outlet, Link, useLocation } from 'react-router-dom';
 import { useAuthStore } from '../../store/authStore';
+import { useLogout } from '../../features/auth/hooks/useAuth';
 import { LogOut, Home, Calendar, Award, FileText } from 'lucide-react';
 import clsx from 'clsx';
 
 export const DashboardLayout = () => {
-  const { user, logout } = useAuthStore();
-  const navigate = useNavigate();
+  const { user } = useAuthStore();
   const location = useLocation();
+  const { mutate: logoutUser, isPending: isLoggingOut } = useLogout();
 
   const handleLogout = () => {
-    logout();
-    navigate('/login');
+    logoutUser();
   };
 
   const studentLinks = [
@@ -67,10 +67,11 @@ export const DashboardLayout = () => {
             </span>
             <button
               onClick={handleLogout}
-              className="flex items-center space-x-2 text-gray-600 hover:text-red-600 transition-colors"
+              disabled={isLoggingOut}
+              className="flex items-center space-x-2 text-gray-600 hover:text-red-600 transition-colors disabled:opacity-50"
             >
               <LogOut size={18} />
-              <span>Logout</span>
+              <span>{isLoggingOut ? 'Logging out...' : 'Logout'}</span>
             </button>
           </div>
         </header>
