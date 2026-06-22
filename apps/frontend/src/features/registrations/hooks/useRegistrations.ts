@@ -1,5 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { getMyRegistrations, registerForEvent, cancelRegistration, GetRegistrationsParams } from '../api';
+import { getMyRegistrations, getEventRegistrations, registerForEvent, cancelRegistration, GetRegistrationsParams } from '../api';
 import { RegisterEventPayload } from '../types';
 import toast from 'react-hot-toast';
 
@@ -7,6 +7,14 @@ export const useMyRegistrations = (params: GetRegistrationsParams) => {
   return useQuery({
     queryKey: ['registrations', 'my', params],
     queryFn: () => getMyRegistrations(params),
+  });
+};
+
+export const useEventRegistrations = (eventId: string, params: GetRegistrationsParams) => {
+  return useQuery({
+    queryKey: ['registrations', 'event', eventId, params],
+    queryFn: () => getEventRegistrations(eventId, params),
+    enabled: !!eventId,
   });
 };
 

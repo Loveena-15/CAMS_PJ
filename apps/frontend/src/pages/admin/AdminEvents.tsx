@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useEvents, useDeleteEvent } from '@/features/events/hooks/useEvents';
-import { Edit2, Trash2, Plus, Calendar, AlertCircle } from 'lucide-react';
+import { Edit2, Trash2, Plus, Calendar, AlertCircle, Award } from 'lucide-react';
 import { Input } from '@/components/ui/Input';
 import { useDebounce } from '@/hooks/useDebounce';
 
@@ -108,6 +108,9 @@ export const AdminEvents = () => {
                       </span>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                      <Link to={`/admin/events/${event.id}/results`} className="text-blue-600 hover:text-blue-900 mr-4 inline-flex items-center">
+                        <Award className="w-4 h-4 mr-1" /> Results
+                      </Link>
                       <Link to={`/admin/events/${event.id}/edit`} className="text-indigo-600 hover:text-indigo-900 mr-4 inline-flex items-center">
                         <Edit2 className="w-4 h-4 mr-1" /> Edit
                       </Link>

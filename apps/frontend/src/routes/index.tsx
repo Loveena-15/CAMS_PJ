@@ -9,7 +9,9 @@ import { EventDetails } from '../pages/public/EventDetails';
 import { AdminEvents } from '../pages/admin/AdminEvents';
 import { CreateEvent } from '../pages/admin/CreateEvent';
 import { EditEvent } from '../pages/admin/EditEvent';
+import { AdminEventResults } from '../pages/admin/AdminEventResults';
 import { MyRegistrations } from '../pages/student/MyRegistrations';
+import { MyResults } from '../pages/student/MyResults';
 
 export const router = createBrowserRouter([
   {
@@ -47,7 +49,7 @@ export const router = createBrowserRouter([
         children: [
           { path: 'home', element: <div>Student Dashboard Home</div> },
           { path: 'registrations', element: <MyRegistrations /> },
-          { path: 'results', element: <div>Student Results</div> },
+          { path: 'results', element: <MyResults /> },
           { path: 'certificates', element: <div>Student Certificates</div> },
         ],
       },
@@ -64,6 +66,7 @@ export const router = createBrowserRouter([
           { path: 'events', element: <AdminEvents /> },
           { path: 'events/create', element: <CreateEvent /> },
           { path: 'events/:id/edit', element: <EditEvent /> },
+          { path: 'events/:id/results', element: <AdminEventResults /> },
         ],
       },
     ],

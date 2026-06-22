@@ -16,6 +16,10 @@ export const getMyRegistrations = async (params: GetRegistrationsParams = {}): P
   return api.get('/registrations/my', { params });
 };
 
+export const getEventRegistrations = async (eventId: string, params: GetRegistrationsParams = {}): Promise<ApiResponse<PaginatedResponse<Registration>>> => {
+  return api.get(`/registrations/event/${eventId}`, { params });
+};
+
 export const cancelRegistration = async (id: string): Promise<ApiResponse<null>> => {
   return api.delete(`/registrations/${id}`);
 };
